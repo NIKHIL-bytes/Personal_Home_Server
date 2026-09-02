@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ app_name }}{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1 id="welcomeHeading">Good evening, {{ user.display_name }}</h1>
+  <p class="page-subtitle">Here's what's happening on your server.</p>
+</div>
+
+<div class="dash-grid">
+  <div class="card">
+    <h3 class="card-title">Storage</h3>
+    <div class="progress-bar"><div class="progress-fill" id="storageFill" style="width:0%"></div></div>
+    <div class="storage-legend">
+      <div><span class="legend-label">Used</span><span class="legend-value" id="storageUsed">—</span></div>
+      <div><span class="legend-label">Free</span><span class="legend-value" id="storageFree">—</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title">System Status</h3>
+    <ul class="status-list" id="statusList">
+      <li><span class="status-dot"></span> Server <span class="status-value">checking…</span></li>
+      <li><span class="status-dot"></span> Storage <span class="status-value">checking…</span></li>
+      <li><span class="status-dot"></span> Database <span class="status-value">checking…</span></li>
+    </ul>
+  </div>
+
+  <div class="card card-wide">
+    <h3 class="card-title">Quick Actions</h3>
+    <div class="quick-actions">
+      <a href="/files" class="quick-action"><span class="nav-icon" data-icon="files"></span>My Files</a>
+      <a href="/shared" class="quick-action"><span class="nav-icon" data-icon="shared"></span>Shared Files</a>
+      <a href="/media?category=photos" class="quick-action"><span class="nav-icon" data-icon="photo"></span>Photos</a>
+      <a href="/media?category=videos" class="quick-action"><span class="nav-icon" data-icon="video"></span>Videos</a>
+      <a href="/media?category=audio" class="quick-action"><span class="nav-icon" data-icon="audio"></span>Music</a>
+    </div>
+  </div>
+
+  <div class="card card-wide">
+    <h3 class="card-title">Recent Activity</h3>
+    <ul class="activity-list" id="activityList">
+      <li class="empty-hint">Loading recent activity…</li>
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}<script src="/static/js/dashboard.js"></script>{% endblock %}

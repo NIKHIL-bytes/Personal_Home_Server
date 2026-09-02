@@ -1,0 +1,63 @@
+# Nginx site config for Home Server.
+# Install to /etc/nginx/sites-available/home-server and symlink into sites-enabled.
+#
+# This config:
+#   - proxies everything to FastAPI on 127.0.0.1:8000
+#   - allows large uploads and media streaming
+#   - blocks access to sensitive files (.env, .git, *.db, logs)
+#   - sets baseline security headers
+
+server {
+    listen 80;
+    server_tokens off;
+    server_name _;
+
+    client_max_body_size 5G;
+    proxy_read_timeout 3600s;
+    proxy_send_timeout 3600s;
+
+    # Never serve these regardless of request path.
+    location ~* \.(env|db|db-journal|db-wal|db-shm|log)$ {
+        deny all;
+        return 404;
+    }
+    location ~ /\.git {
+        deny all;
+        return 404;
+    }
+    location ^~ /logs/ {
+        deny all;
+        return 404;
+    }
+
+    location /static/ {
+        alias /opt/home-server/app/static/;
+        expires 7d;
+        access_log off;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Needed so byte-range requests (video/audio seeking) pass through cleanly.
+        proxy_set_header Range $http_range;
+        proxy_set_header If-Range $http_if_range;
+        proxy_buffering off;
+    }
+
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "same-origin" always;
+    # Kept permissive enough not to break inline <script> in templates;
+    # tighten further once you've confirmed nothing else needs external sources.
+    add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'" always;
+}
+
+# --- Once you're ready for HTTPS (recommended before exposing beyond your LAN) ---
+# Use certbot or your own certificates, then add a second `server` block on 443
+# with ssl_certificate / ssl_certificate_key, and redirect port 80 to 443.

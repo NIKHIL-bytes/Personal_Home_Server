@@ -1,0 +1,24 @@
+[Unit]
+Description=Home Server (FastAPI backend)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=server
+Group=server
+WorkingDirectory=/opt/home-server
+EnvironmentFile=/opt/home-server/.env
+ExecStart=/opt/home-server/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=on-failure
+RestartSec=3
+
+# Hardening (safe defaults for a single-purpose app service)
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/home-server/data /opt/home-server/logs
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

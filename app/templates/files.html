@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}My Files — {{ app_name }}{% endblock %}
+{% block content %}
+
+<div class="page-header row-header">
+  <div>
+    <h1>My Files</h1>
+    <nav class="breadcrumbs" id="breadcrumbs" aria-label="Breadcrumb"></nav>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-secondary" id="viewToggleBtn" title="Toggle view">Grid</button>
+    <button class="btn btn-secondary" id="newFolderBtn">New Folder</button>
+    <label class="btn btn-primary file-upload-label">
+      Upload
+      <input type="file" id="uploadInput" hidden multiple>
+    </label>
+  </div>
+</div>
+
+<div id="uploadProgressWrap" class="upload-progress-wrap" hidden>
+  <div class="upload-progress-bar"><div id="uploadProgressFill" class="upload-progress-fill"></div></div>
+  <span id="uploadProgressLabel">Uploading…</span>
+</div>
+
+<div id="fileGrid" class="file-grid"></div>
+<div id="fileEmptyState" class="empty-state" hidden>
+  <p class="empty-title">No files yet</p>
+  <p class="empty-subtitle">Your personal files will appear here.</p>
+</div>
+
+{% endblock %}
+{% block scripts %}<script src="/static/js/files.js"></script>{% endblock %}

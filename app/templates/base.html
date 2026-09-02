@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ app_name }}{% endblock %}</title>
+<link rel="stylesheet" href="/static/css/main.css">
+<link rel="stylesheet" href="/static/css/components.css">
+<link rel="stylesheet" href="/static/css/files.css">
+<link rel="stylesheet" href="/static/css/media.css">
+<link rel="stylesheet" href="/static/css/admin.css">
+<link rel="stylesheet" href="/static/css/viewer.css">
+<link rel="stylesheet" href="/static/css/responsive.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <img src="/static/images/logo.svg" alt="" class="brand-logo">
+      <span class="brand-name">{{ app_name }}</span>
+    </div>
+
+    <nav class="nav-main">
+      <a href="/" class="nav-link {% if active == 'dashboard' %}active{% endif %}">
+        <span class="nav-icon" data-icon="dashboard"></span> Dashboard
+      </a>
+      <a href="/files" class="nav-link {% if active == 'files' %}active{% endif %}">
+        <span class="nav-icon" data-icon="files"></span> My Files
+      </a>
+      <a href="/shared" class="nav-link {% if active == 'shared' %}active{% endif %}">
+        <span class="nav-icon" data-icon="shared"></span> Shared
+      </a>
+      <a href="/media" class="nav-link {% if active == 'media' %}active{% endif %}">
+        <span class="nav-icon" data-icon="media"></span> Media
+      </a>
+    </nav>
+
+    {% if user.is_admin %}
+    <div class="nav-divider"></div>
+    <nav class="nav-main">
+      <a href="/admin" class="nav-link {% if active == 'admin' %}active{% endif %}">
+        <span class="nav-icon" data-icon="admin"></span> Admin
+      </a>
+    </nav>
+    {% endif %}
+
+    <div class="sidebar-footer">
+      <a href="/profile" class="nav-link {% if active == 'profile' %}active{% endif %}">
+        <span class="nav-icon" data-icon="profile"></span> Profile
+      </a>
+      <a href="#" class="nav-link" id="logoutBtn">
+        <span class="nav-icon" data-icon="logout"></span> Logout
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="icon-btn mobile-only" id="menuToggle" aria-label="Open menu">
+        <span class="nav-icon" data-icon="menu"></span>
+      </button>
+      <div class="search-wrap">
+        <input type="search" id="globalSearch" placeholder="Search files, shared, media..." aria-label="Search">
+      </div>
+      <div class="topbar-user">
+        <span class="user-name">{{ user.display_name }}</span>
+        <span class="user-role-badge {% if user.is_admin %}admin{% endif %}">{{ user.role }}</span>
+      </div>
+    </header>
+
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+<div id="sidebarScrim" class="sidebar-scrim"></div>
+
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/viewer.js"></script>
+<script src="/static/js/notifications.js"></script>
+<script src="/static/js/app.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

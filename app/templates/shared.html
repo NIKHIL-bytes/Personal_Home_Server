@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Shared Files — {{ app_name }}{% endblock %}
+{% block content %}
+
+<div class="page-header row-header">
+  <div>
+    <h1>Shared Files</h1>
+    <p class="page-subtitle">Files available to everyone on this server.</p>
+    <nav class="breadcrumbs" id="sharedBreadcrumbs" aria-label="Breadcrumb"></nav>
+  </div>
+  {% if user.is_admin %}
+  <div class="header-actions">
+    <button class="btn btn-secondary" id="sharedNewFolderBtn">New Folder</button>
+    <label class="btn btn-primary file-upload-label">
+      Upload
+      <input type="file" id="sharedUploadInput" hidden multiple>
+    </label>
+  </div>
+  {% endif %}
+</div>
+
+<div class="filter-chips" id="sharedFilters">
+  <button class="chip active" data-filter="all">All</button>
+  <button class="chip" data-filter="document">Documents</button>
+  <button class="chip" data-filter="image">Photos</button>
+  <button class="chip" data-filter="video">Videos</button>
+  <button class="chip" data-filter="audio">Audio</button>
+  <button class="chip" data-filter="other">Other</button>
+</div>
+
+<div id="sharedGrid" class="file-grid"></div>
+<div id="sharedEmptyState" class="empty-state" hidden>
+  <p class="empty-title">Nothing has been shared yet</p>
+  <p class="empty-subtitle">Shared files uploaded by the administrator will appear here.</p>
+</div>
+
+{% endblock %}
+{% block scripts %}<script src="/static/js/shared.js"></script>{% endblock %}

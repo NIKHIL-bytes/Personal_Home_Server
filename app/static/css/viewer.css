@@ -1,0 +1,170 @@
+/* ---------- In-browser file viewer ---------- */
+.viewer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 5, 6, 0.85);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 1.25rem;
+}
+.viewer-overlay.open { display: flex; }
+body.viewer-open { overflow: hidden; }
+
+.viewer-panel {
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.viewer-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-2);
+  flex-shrink: 0;
+}
+.viewer-close {
+  font-size: 1.1rem;
+}
+.viewer-filename {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.viewer-download {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viewer-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 1.25rem;
+  background: var(--bg);
+}
+
+/* Images: scale to fit, preserve aspect ratio, never stretch */
+.viewer-body-image { padding: 0.75rem; }
+.viewer-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+/* PDFs: use as much space as possible */
+.viewer-body-pdf { padding: 0; }
+.viewer-pdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+}
+
+/* Video */
+.viewer-body-video { padding: 0.75rem; }
+.viewer-video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius-sm);
+  background: #000;
+}
+
+/* Audio */
+.viewer-body-audio { padding: 1.5rem; }
+.viewer-audio-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 420px;
+}
+.viewer-audio-icon {
+  font-size: 3rem;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.viewer-audio { width: 100%; }
+
+/* Text preview */
+.viewer-body-text {
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+}
+.viewer-text {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 1.25rem 1.5rem;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--panel);
+}
+
+/* Unsupported file preview */
+.viewer-unsupported {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  max-width: 360px;
+}
+.viewer-unsupported-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+.viewer-unsupported-name {
+  font-weight: 600;
+  font-size: 1rem;
+  word-break: break-word;
+}
+.viewer-unsupported-meta {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+.viewer-unsupported-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .viewer-overlay { padding: 0; }
+  .viewer-panel { max-width: none; border-radius: 0; border: none; }
+  .viewer-filename { font-size: 0.85rem; }
+  .viewer-download span { display: none; }
+}

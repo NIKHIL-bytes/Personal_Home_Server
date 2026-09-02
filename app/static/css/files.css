@@ -1,0 +1,95 @@
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.9rem;
+}
+
+.file-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+  position: relative;
+}
+.file-card:hover { border-color: var(--accent); }
+.file-card:active { transform: scale(0.98); }
+
+.file-icon {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.9rem;
+  color: var(--accent);
+  background: var(--panel-2);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.7rem;
+}
+.file-icon.folder { color: #E8B84B; }
+
+.file-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+.file-meta { font-size: 0.75rem; color: var(--text-secondary); }
+
+.file-menu-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: none; border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.file-card:hover .file-menu-btn { opacity: 1; }
+.file-menu-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+
+.file-actions-menu {
+  position: absolute;
+  top: 34px; right: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  z-index: 10;
+  min-width: 130px;
+  overflow: hidden;
+}
+.file-actions-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.file-actions-menu button:hover { background: rgba(255,255,255,0.05); }
+.file-actions-menu button.danger { color: var(--danger); }
+
+/* List view */
+.file-grid.list-view {
+  display: block;
+}
+.file-grid.list-view .file-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem 0.9rem;
+  margin-bottom: 6px;
+}
+.file-grid.list-view .file-icon { width: 40px; height: 40px; font-size: 1.1rem; margin-bottom: 0; flex-shrink: 0; }
+.file-grid.list-view .file-name { flex: 1; }
+.file-grid.list-view .file-meta { flex-shrink: 0; }

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Admin — {{ app_name }}{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Admin</h1>
+</div>
+
+<div class="admin-tabs" id="adminTabs">
+  <button class="admin-tab active" data-tab="overview">Overview</button>
+  <button class="admin-tab" data-tab="users">Users</button>
+  <button class="admin-tab" data-tab="logs">Activity</button>
+</div>
+
+<section id="adminOverview" class="admin-section">
+  <div class="dash-grid">
+    <div class="card">
+      <h3 class="card-title">CPU</h3>
+      <div class="progress-bar"><div class="progress-fill" id="cpuFill" style="width:0%"></div></div>
+      <span class="legend-value" id="cpuValue">—</span>
+    </div>
+    <div class="card">
+      <h3 class="card-title">RAM</h3>
+      <div class="progress-bar"><div class="progress-fill" id="ramFill" style="width:0%"></div></div>
+      <span class="legend-value" id="ramValue">—</span>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Storage</h3>
+      <div class="progress-bar"><div class="progress-fill" id="diskFill" style="width:0%"></div></div>
+      <span class="legend-value" id="diskValue">—</span>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Overview</h3>
+      <ul class="status-list">
+        <li>Users <span class="status-value" id="statUserCount">—</span></li>
+        <li>Active sessions <span class="status-value" id="statSessions">—</span></li>
+        <li>Uptime <span class="status-value" id="statUptime">—</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="adminUsers" class="admin-section" hidden>
+  <div class="header-actions" style="margin-bottom:1rem;">
+    <input type="search" id="userSearchInput" placeholder="Search users…" class="search-input" style="flex:1; max-width:280px;">
+    <button class="btn btn-primary" id="createUserBtn">+ Create User</button>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr><th>User</th><th>Role</th><th>Status</th><th>Storage Quota</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="usersTableBody"></tbody>
+  </table>
+</section>
+
+<section id="adminUserDetail" class="admin-section" hidden>
+  <div class="page-header row-header">
+    <div>
+      <button class="btn btn-secondary" id="userDetailBackBtn">← Back to Users</button>
+      <h2 id="userDetailName" style="margin:0.75rem 0 0.25rem;"></h2>
+      <p class="page-subtitle" id="userDetailMeta"></p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="userDetailForceLogoutBtn">Force Logout</button>
+      <button class="btn btn-secondary" id="userDetailResetPwBtn">Reset Password</button>
+      <button class="btn btn-danger" id="userDetailDeleteDataBtn">Delete All Data</button>
+    </div>
+  </div>
+
+  <div class="dash-grid" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <h3 class="card-title">Storage Used</h3>
+      <span class="stat-value-lg" id="userDetailStorage">—</span>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Files</h3>
+      <span class="stat-value-lg" id="userDetailFileCount">—</span>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Quota</h3>
+      <span class="stat-value-lg" id="userDetailQuota">—</span>
+    </div>
+  </div>
+
+  <div class="page-header row-header">
+    <nav class="breadcrumbs" id="userFilesBreadcrumbs" aria-label="Breadcrumb"></nav>
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="userFilesNewFolderBtn">New Folder</button>
+    </div>
+  </div>
+  <div id="userFilesGrid" class="file-grid"></div>
+  <div id="userFilesEmptyState" class="empty-state" hidden>
+    <p class="empty-title">This folder is empty</p>
+  </div>
+</section>
+
+<section id="adminLogs" class="admin-section" hidden>
+  <div class="header-actions" style="margin-bottom:1rem;">
+    <input type="search" id="logUserFilter" placeholder="Filter by username…" class="search-input" style="max-width:220px;">
+    <input type="text" id="logActionFilter" placeholder="Filter by action (e.g. FILE_DELETE)…" class="search-input" style="max-width:260px;">
+    <button class="btn btn-secondary" id="logFilterBtn">Filter</button>
+    <button class="btn btn-secondary" id="logFilterClearBtn">Clear</button>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr><th>Time</th><th>User</th><th>Action</th><th>Target</th><th>IP</th></tr>
+    </thead>
+    <tbody id="logsTableBody"></tbody>
+  </table>
+</section>
+
+<!-- Create user modal -->
+<div id="createUserModal" class="modal-backdrop" hidden>
+  <div class="modal">
+    <h3>Create User</h3>
+    <form id="createUserForm">
+      <div class="field"><label>Username</label><input type="text" name="username" required></div>
+      <div class="field"><label>Display name</label><input type="text" name="display_name" required></div>
+      <div class="field"><label>Password</label><input type="password" name="password" required minlength="8"></div>
+      <div class="field">
+        <label>Role</label>
+        <select name="role"><option value="user">User</option><option value="admin">Admin</option></select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelCreateUser">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}<script src="/static/js/admin.js"></script>{% endblock %}

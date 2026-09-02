@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Media — {{ app_name }}{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Media</h1>
+</div>
+
+<div class="media-tabs" id="mediaTabs">
+  <button class="media-tab active" data-category="photos">Photos</button>
+  <button class="media-tab" data-category="videos">Videos</button>
+  <button class="media-tab" data-category="audio">Music</button>
+  <button class="media-tab" data-category="other">Other</button>
+</div>
+
+<div id="mediaEmptyState" class="empty-state" hidden>
+  <p class="empty-title">Your media library is empty</p>
+</div>
+
+<div id="mediaGrid" class="media-grid"></div>
+
+<!-- Photo lightbox -->
+<div id="lightbox" class="lightbox" hidden>
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+  <img id="lightboxImage" src="" alt="">
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+</div>
+
+<!-- Video overlay player -->
+<div id="videoOverlay" class="video-overlay" hidden>
+  <button class="lightbox-close" id="videoClose" aria-label="Close">✕</button>
+  <video id="videoPlayer" controls></video>
+  <p class="video-caption" id="videoCaption"></p>
+</div>
+
+<!-- Persistent audio player -->
+<div id="audioPlayerBar" class="audio-player-bar" hidden>
+  <span class="audio-icon">♪</span>
+  <span id="audioTrackName" class="audio-track-name">—</span>
+  <audio id="audioPlayer" controls></audio>
+</div>
+
+{% endblock %}
+{% block scripts %}<script src="/static/js/media.js"></script>{% endblock %}
