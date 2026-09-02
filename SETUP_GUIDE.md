@@ -1,6 +1,6 @@
-# 🚀 Home Server Complete Setup & Deployment Guide
+# 🚀 Personal Home Server Complete Setup & Deployment Guide
 
-This guide covers everything you need to know to deploy **Home Server**, whether you are setting up an old laptop from scratch, installing on an existing Linux OS (Ubuntu/Debian/Raspberry Pi), or running a local development instance on Windows/Mac.
+This guide covers everything you need to know to deploy **Personal Home Server**, whether you are setting up an old laptop from scratch, installing on an existing Linux OS (Ubuntu/Debian/Raspberry Pi), or running a local development instance on Windows/Mac.
 
 ---
 
@@ -8,7 +8,7 @@ This guide covers everything you need to know to deploy **Home Server**, whether
 
 - 🟢 **[Track 1: Quick 2-Minute Setup on Any Running Linux OS](#track-1-quick-2-minute-setup-on-any-running-linux-os)** (Ubuntu, Debian, Raspberry Pi, Linux Mint)
 - 🟢 **[Track 2: Local Testing & Development](#track-2-local-testing--development-windows--mac--linux)** (Run without Nginx/systemd on Windows/Mac/Linux)
-- 🟡 **[Track 3: Complete Bare-Metal Setup (Debian from Zero)](#track-3-complete-bare-metal-setup-debian-from-zero)** (ISO flashing, Wi-Fi driver fix, Nginx, systemd, Admin setup, Tunnels)
+- 🟡 **[Track 3: Complete Bare-Metal Setup (Debian from Zero)](#track-3-complete-bare-metal-setup-debian-from-zero)** (ISO flashing, Wi-Fi driver fix, Nginx, systemd, Admin setup, Public Tunnels)
 
 ---
 
@@ -18,9 +18,9 @@ If you already have a working Linux machine (Ubuntu, Debian, Raspberry Pi OS, Fe
 
 ### 1. Download & Run Installer
 ```bash
-# Clone the repository (or copy the project folder)
-git clone https://github.com/your-username/home-server.git
-cd home-server
+# Clone the repository
+git clone https://github.com/NIKHIL-bytes/Personal_Home_Server.git
+cd Personal_Home_Server
 
 # Run the installer (creates system user, venv, database, systemd service, Nginx config)
 sudo ./install.sh
@@ -295,19 +295,37 @@ sudo systemctl reload nginx
 
 ---
 
-### Step 10: Optional Remote Access via Cloudflare Tunnel (`cloudflared`)
+### Step 10: Making Your Server Public (Cloudflare Tunnels)
 
+Expose your server securely over the public internet without port forwarding or opening router ports:
+
+#### Option A: Instant Free Public Link (No Domain Required)
+Generate a temporary, encrypted HTTPS link (`https://xxxx.trycloudflare.com`) instantly:
 ```bash
-# 1. Install cloudflared
+# Run cloudflared against local port 8000 (or port 80 via Nginx)
+cloudflared tunnel --url http://127.0.0.1:8000
+```
+
+#### Option B: Permanent Production Custom Domain Setup
+Connect a custom domain (e.g. `drive.yourdomain.com`) with free Cloudflare SSL & DDoS mitigation:
+```bash
+# 1. Install Cloudflare package repo
 sudo mkdir -p --mode=0755 /usr/share/keyrings
 curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
 echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" | sudo tee /etc/apt/sources.list.d/cloudflared.list
+sudo apt update && sudo apt install cloudflared -y
 
-sudo apt update
-sudo apt install cloudflared -y
+# 2. Login to Cloudflare account
+cloudflared tunnel login
 
-# 2. Run quick tunnel
-cloudflared tunnel --url http://localhost:80
+# 3. Create named tunnel
+cloudflared tunnel create home-server
+
+# 4. Route domain hostname to tunnel
+cloudflared tunnel route dns home-server drive.yourdomain.com
+
+# 5. Install tunnel as system service
+sudo cloudflared service install <YOUR_TUNNEL_TOKEN>
 ```
 
 ---

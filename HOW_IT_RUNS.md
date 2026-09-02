@@ -1,6 +1,6 @@
 # 🏡 How Home Server Works: Explained Simply!
 
-Welcome! If you ever wondered how **Home Server** works under the hood, imagine it as a **super-smart, 24/7 Digital Apartment Building**. 
+Welcome! If you ever wondered how **Personal Home Server** works under the hood, imagine it as a **super-smart, 24/7 Digital Apartment Building**. 
 
 Here is the simple story of how every piece of code and file works together to keep your files safe, stream videos, and let administrators manage users!
 
@@ -11,12 +11,12 @@ Here is the simple story of how every piece of code and file works together to k
 Imagine your server machine as a high-security building:
 
 ```
-[ Visitor in Browser ]
-         │
-         ▼
+[ Visitor in Browser / Public Tunnel ]
+                 │
+                 ▼
 🕵️‍♂️ Nginx (The Front Gate Doorman)
-         │
-         ▼
+                 │
+                 ▼
 👮‍♂️ FastAPI (The Central Building Manager)
       ├── 🔑 Security & Guard (security.py, dependencies.py)
       ├── 🛡️ Safe Join Guard (utils.py)
