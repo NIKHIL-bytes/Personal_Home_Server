@@ -23,6 +23,25 @@ A production-grade, self-hosted personal & family cloud server. Designed from th
 
 ---
 
+## 📸 UI Showcase & Screenshots
+
+### 🔑 Authentication & Main Dashboard
+| Login Screen | Main Dashboard |
+| :---: | :---: |
+| ![Login Screen](screenshots/Login.png) | ![Main Dashboard](screenshots/Dashboard.png) |
+
+### 📁 Storage & Media Management
+| My Files Storage | Shared Repository | Media Library |
+| :---: | :---: | :---: |
+| ![My Files](screenshots/MyFiles.png) | ![Shared Drive](screenshots/Shared.png) | ![Media Library](screenshots/Media.png) |
+
+### 👑 Admin Control Panel & Audit System
+| System Overview (CPU/RAM/Disk) | User Management | Activity Audit Logs |
+| :---: | :---: | :---: |
+| ![Admin Overview](screenshots/AdmonOverview.png) | ![Admin Users](screenshots/AdminUsers.png) | ![Activity Logs](screenshots/Activity.png) |
+
+---
+
 ## 🚀 Why Personal Home Server? (Features & Advantages)
 
 * ⚡ **Ultra-Lightweight Footprint:** Consumes **less than 40 MB of RAM** at idle. Perfect for breathing new life into old laptops or low-spec hardware without needing heavy cloud instances.
